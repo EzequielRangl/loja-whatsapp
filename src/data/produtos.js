@@ -19,12 +19,19 @@ export const produtos = [
     preco: 5.00, 
     descricao: "Lata 350ml bem gelada.",
     imagem: "🥤"
-  }, // <-- Vírgula adicionada aqui!
+  },
   { 
-    id: 4, // <-- ID alterado para 4 para ser único!
+    id: 4,
     nome: "Refrigerante Coca-cola", 
     preco: 15.00, 
     descricao: "Garrafa 2 litros bem gelada.",
     imagem: "🥤"
+  },
+  { 
+    id: 5,
+    nome: "Brownie Recheado", 
+    preco: 10.00, 
+    descricao: "Recheado com creme de Ninho.",
+    imagem: "🍪"
   }
 ];
