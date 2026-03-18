@@ -35,6 +35,20 @@ function App() {
     });
   };
 
+  const removerDoCarrinho = (produtoId) => {
+    setCarrinho((carrinhoAtual) => {
+      const itemExistente = carrinhoAtual.find(item => item.id === produtoId);
+      
+      if (itemExistente.quantidade === 1) {
+        return carrinhoAtual.filter(item => item.id !== produtoId);
+      } else {
+        return carrinhoAtual.map(item => 
+          item.id === produtoId ? { ...item, quantidade: item.quantidade - 1 } : item
+        );
+      }
+    });
+  };
+
   const valorTotal = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
   const totalItens = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
 
@@ -83,7 +97,7 @@ function App() {
     setIsCheckoutOpen(false);
 
     const textoCodificado = encodeURIComponent(mensagem);
-    const numeroWhatsApp = "5521997788562"; 
+    const numeroWhatsApp = "5521999999999"; 
     window.open(`https://wa.me/${numeroWhatsApp}?text=${textoCodificado}`, '_blank');
   };
 
@@ -114,28 +128,53 @@ function App() {
         </div>
 
         <div className="space-y-4">
-          {produtos.map((produto) => (
-            <div key={produto.id} className="bg-white p-4 rounded-xl shadow-sm flex gap-4 items-center border border-gray-100 transition-transform hover:scale-[1.01]">
-              <div className="text-5xl bg-gray-50 w-20 h-20 flex items-center justify-center rounded-lg flex-shrink-0 border border-gray-100">
-                {produto.imagem}
+          {produtos.map((produto) => {
+            const quantidadeNoCarrinho = carrinho.find(item => item.id === produto.id)?.quantidade || 0;
+
+            return (
+              <div key={produto.id} className="bg-white p-4 rounded-xl shadow-sm flex gap-4 items-center border border-gray-100 transition-transform hover:scale-[1.01]">
+                <div className="text-5xl bg-gray-50 w-20 h-20 flex items-center justify-center rounded-lg flex-shrink-0 border border-gray-100">
+                  {produto.imagem}
+                </div>
+                <div className="flex-1">
+                  <h2 className="text-lg font-bold text-gray-800 leading-tight">{produto.nome}</h2>
+                  <p className="text-xs text-gray-500 mt-1 line-clamp-2">{produto.descricao}</p>
+                  <p className="text-green-600 font-bold mt-2">
+                    R$ {produto.preco.toFixed(2).replace('.', ',')}
+                  </p>
+                </div>
+                
+                <div className="flex-shrink-0">
+                  {quantidadeNoCarrinho > 0 ? (
+                    <div className="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-full p-1 shadow-inner">
+                      <button 
+                        onClick={() => removerDoCarrinho(produto.id)}
+                        className="bg-white text-red-500 w-8 h-8 flex items-center justify-center rounded-full shadow hover:bg-gray-100 transition-colors font-bold text-lg"
+                      >
+                        -
+                      </button>
+                      <span className="font-bold text-gray-800 w-4 text-center">{quantidadeNoCarrinho}</span>
+                      <button 
+                        onClick={() => adicionarAoCarrinho(produto)}
+                        className="bg-red-500 text-white w-8 h-8 flex items-center justify-center rounded-full shadow hover:bg-red-600 transition-colors font-bold text-lg"
+                      >
+                        +
+                      </button>
+                    </div>
+                  ) : (
+                    <button 
+                      onClick={() => adicionarAoCarrinho(produto)}
+                      className="bg-red-500 hover:bg-red-600 active:bg-red-700 text-white w-10 h-10 flex items-center justify-center rounded-full transition-colors shadow-md"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
               </div>
-              <div className="flex-1">
-                <h2 className="text-lg font-bold text-gray-800 leading-tight">{produto.nome}</h2>
-                <p className="text-xs text-gray-500 mt-1 line-clamp-2">{produto.descricao}</p>
-                <p className="text-green-600 font-bold mt-2">
-                  R$ {produto.preco.toFixed(2).replace('.', ',')}
-                </p>
-              </div>
-              <button 
-                onClick={() => adicionarAoCarrinho(produto)}
-                className="bg-red-500 hover:bg-red-600 active:bg-red-700 text-white w-10 h-10 flex items-center justify-center rounded-full transition-colors flex-shrink-0 shadow-md"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
-                </svg>
-              </button>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
@@ -164,6 +203,16 @@ function App() {
               <button onClick={() => setIsCheckoutOpen(false)} className="text-gray-400 hover:text-gray-600">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
+            </div>
+
+            <div className="bg-gray-50 p-3 rounded-lg mb-4 max-h-32 overflow-y-auto border border-gray-100">
+              <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Resumo do Carrinho</h3>
+              {carrinho.map(item => (
+                <div key={item.id} className="flex justify-between text-sm text-gray-700 mb-1">
+                  <span>{item.quantidade}x {item.nome}</span>
+                  <span className="font-medium">R$ {(item.preco * item.quantidade).toFixed(2).replace('.', ',')}</span>
+                </div>
+              ))}
             </div>
 
             <div className="space-y-3 mb-6">
@@ -224,6 +273,13 @@ function App() {
                   />
                 </div>
               )}
+            </div>
+
+            <div className="border-t border-gray-200 pt-4 mb-6">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-gray-600 font-medium">Total a pagar:</span>
+                <span className="text-2xl font-bold text-gray-900">R$ {valorTotal.toFixed(2).replace('.', ',')}</span>
+              </div>
             </div>
 
             <button 
