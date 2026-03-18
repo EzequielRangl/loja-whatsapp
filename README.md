@@ -1,16 +1,42 @@
-# React + Vite
+# 🍕 Loja WhatsApp - Delivery App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Status do Projeto](https://img.shields.io/badge/Status-Finalizado-green)
+![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-B73BFE?style=flat&logo=vite&logoColor=FFD62E)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white)
 
-Currently, two official plugins are available:
+Um aplicativo web moderno e *mobile-first* criado para facilitar o processo de pedidos de delivery. O cliente monta o carrinho, preenche os dados de entrega e o aplicativo gera uma mensagem formatada, enviando o pedido completo diretamente para o WhatsApp do lojista.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+🔗 **[Acesse o projeto rodando ao vivo aqui](COLOQUE_AQUI_SEU_LINK_DA_VERCEL)**
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Funcionalidades Principais
 
-## Expanding the ESLint configuration
+* **Vitrine Dinâmica:** Listagem de produtos lidos a partir de uma estrutura de dados, facilitando a manutenção do cardápio.
+* **Carrinho de Compras:** Lógica de estado (`useState`) para adicionar itens, somar quantidades e calcular o valor total em tempo real.
+* **Integração com WhatsApp:** Utilização de `encodeURIComponent` para formatar o resumo do pedido e redirecionar para a API do WhatsApp.
+* **Renderização Condicional:** O campo de "Troco" surge dinamicamente apenas se o cliente selecionar a opção de pagamento em "Dinheiro".
+* **Persistência de Dados (LocalStorage):** O app possui "memória". O nome, telefone e endereço do cliente ficam salvos no navegador para os próximos pedidos, junto com um histórico de compras anteriores.
+* **Design Responsivo:** Interface construída com Tailwind CSS, otimizada para a melhor experiência em smartphones.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 💻 Tecnologias Utilizadas
+
+Este projeto foi construído utilizando as seguintes tecnologias:
+
+* **[React](https://react.dev/):** Biblioteca JavaScript para construção da interface de usuário baseada em componentes.
+* **[Vite](https://vitejs.dev/):** Ferramenta de build super rápida e servidor de desenvolvimento.
+* **[Tailwind CSS (v4)](https://tailwindcss.com/):** Framework CSS utility-first para estilização rápida e responsiva.
+* **JavaScript (ES6+):** Lógica de negócios, manipulação de arrays (`map`, `reduce`, `find`) e gerenciamento de LocalStorage.
+
+---
+
+## 🛠️ Como rodar o projeto localmente
+
+Siga os passos abaixo para rodar o projeto na sua máquina:
+
+1. Clone este repositório:
+   ```bash
+   git clone [https://github.com/SEU_USUARIO/loja-whatsapp.git](https://github.com/SEU_USUARIO/loja-whatsapp.git)
